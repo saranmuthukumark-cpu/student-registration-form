@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #e3f2fd;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+        color: #222;
+      }
+
+      .form-container {
+        width: 350px;
+        max-width: 95%;
+        margin: 0 auto;
+        background: white;
+        border: 1px solid #aaa;
+        border-radius: 6px;
+        padding: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      td {
+        padding: 8px;
+        border: 1px solid #ccc;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 6px;
+        box-sizing: border-box;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+      }
+
+      input[type="radio"] {
+        width: auto;
+        margin-right: 5px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      button:hover {
+        background-color: #1565c0;
+      }
+
+      .table-container {
+        width: 80%;
+        max-width: 95%;
+        margin: 30px auto;
+        background: white;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #aaa;
+        overflow-x: auto;
+      }
+
+      th,
+      td {
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #bbdefb;
+      }
+
+      .delete-btn {
+        background-color: #e53935;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+
+      .delete-btn:hover {
+        background-color: #c62828;
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+
+        .form-container {
+          padding: 15px;
+        }
+
+        td {
+          padding: 6px;
+        }
+
+        input,
+        select,
+        button {
+          padding: 8px;
+          font-size: 14px;
+        }
+
+        h1 {
+          font-size: 22px;
+        }
+
+        h2 {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>STUDENT REGISTRATION FORM</h1>
+
+    <div class="form-container">
+      <table>
+        <tr>
+          <td><b>Name</b></td>
+          <td><input type="text" id="name" placeholder="Enter your name" /></td>
+        </tr>
+        <tr>
+          <td><b>Age</b></td>
+          <td><input type="number" id="age" placeholder="Enter your age" /></td>
+        </tr>
+        <tr>
+          <td><b>Gender</b></td>
+          <td>
+            <input type="radio" name="gender" value="Male" /> Male
+            <input type="radio" name="gender" value="Female" /> Female
+          </td>
+        </tr>
+        <tr>
+          <td><b>Course</b></td>
+          <td>
+            <select id="course">
+              <option value="">Select Course</option>
+              <option value="Fullstack">Fullstack</option>
+              <option value="Devops">Devops</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Python">Python</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><b>Email</b></td>
+          <td>
+            <input type="email" id="email" placeholder="Enter your email" />
+          </td>
+        </tr>
+      </table>
+      <br />
+      <button onclick="saveData()">Save</button>
+    </div>
+
+    <h2>Registered Students List</h2>
+
+    <div class="table-container">
+      <table id="studentTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Course</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script>
+      function saveData() {
+        let name = document.getElementById("name").value;
+        let age = document.getElementById("age").value;
+        let gender = document.querySelector('input[name="gender"]:checked');
+        let course = document.getElementById("course").value;
+        let email = document.getElementById("email").value;
+
+        if (!name || !age || !gender || !course || !email) {
+          alert("Please fill all fields!");
+          return;
+        }
+
+        let table = document
+          .getElementById("studentTable")
+          .getElementsByTagName("tbody")[0];
+        let newRow = table.insertRow();
+
+        newRow.insertCell(0).innerText = name;
+        newRow.insertCell(1).innerText = age;
+        newRow.insertCell(2).innerText = gender.value;
+        newRow.insertCell(3).innerText = course;
+        newRow.insertCell(4).innerText = email;
+
+        let actionCell = newRow.insertCell(5);
+        let delBtn = document.createElement("button");
+        delBtn.innerText = "Delete";
+        delBtn.className = "delete-btn";
+        delBtn.onclick = function () {
+          table.deleteRow(newRow.rowIndex - 1);
+        };
+        actionCell.appendChild(delBtn);
+
+        document.getElementById("name").value = "";
+        document.getElementById("age").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("course").value = "";
+        document
+          .querySelectorAll('input[name="gender"]')
+          .forEach((r) => (r.checked = false));
+      }
+    </script>
+  </body>
+</html>
